@@ -1,4 +1,4 @@
-import { Like } from 'typeorm';
+const Like = require('typeorm').Like;
 const Client = require('../models/Client').Client;
 const getConnection = require('typeorm').getConnection;
 
@@ -11,11 +11,13 @@ function getAllClientsDAO() {
 function getClientByEmailDAO(email) {
   const connection = getConnection();
   const clientRepository = connection.getRepository(Client);
-  return clientRepository.find({
-    where: {
-      email: `${email}`,
-    },
-  });
+  // return clientRepository.find({
+  //   where: {
+  //     email: `${email}`,
+  //   },
+  // });
+
+  return clientRepository.findOne({ email: email });
 }
 
 function saveClientDAO(client) {

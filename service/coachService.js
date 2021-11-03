@@ -5,6 +5,7 @@ const {
   saveCoachDAO,
   getCoachesByPartialLastNameDAO,
 } = require('../dao/coachDao');
+const Coach = require('../models/Coach').Coach;
 
 async function getAllCoaches() {
   try {
@@ -24,7 +25,7 @@ async function getCoachByEmail(email) {
 
 async function saveCoach(email, password, firstName, lastName) {
   try {
-    const newCoach = new User();
+    const newCoach = new Coach();
     newCoach.email = email;
     newCoach.password = await bcrypt.hash(password, 10);
     newCoach.firstName = firstName;
@@ -43,19 +44,9 @@ async function getCoachesByPartialLastName(lastName) {
   }
 }
 
-function generateAccessToken(coach) {
-  return coach.generateAccessToken();
-}
-
-function generateRefreshToken(coach) {
-  return coach.generateRefreshToken();
-}
-
 module.exports = {
   getAllCoaches,
   getCoachByEmail,
   saveCoach,
   getCoachesByPartialLastName,
-  generateAccessToken,
-  generateRefreshToken,
 };

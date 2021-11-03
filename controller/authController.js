@@ -1,53 +1,66 @@
 const bcrypt = require('bcrypt');
-// const {
-//   getAllUsers,
-//   getUserByEmail,
-//   getUserById,
-//   saveUser,
-//   updateUser,
-//   removeUser,
-//   removeUserById,
-//   removeUserByEmail,
-//   generateRefreshToken,
-//   generateAccessToken,
-//   verifyPassword,
-//   getUserByPlainObject,
-// } = require("../service/userService");
+const {
+  getAllCoaches,
+  getCoachByEmail,
+  saveCoach,
+  getCoachesByPartialLastName,
+  generateAccessToken,
+  generateRefreshToken,
+} = require('../service/coachService');
+const {
+  getAllClients,
+  getClientByEmail,
+  saveClient,
+  getClientsByPartialLastName,
+} = require('../service/clientService');
 const jwt = require('jsonwebtoken');
 const { app, authenticateToken } = require('../loaders/loaders');
 
+app.get('/client', async (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  const clients = await getAllClients();
+  res.send(clients);
+});
+
 app.post('/token', async (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
   const refreshToken = req.cookies.refresh_token;
   if (refreshToken == null) return res.sendStatus(401);
 
-  jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
-    if (err) return res.sendStatus(403);
-    const userFromDB =
-      req.body.type === 'coach'
-        ? getCoachByEmail(user.email)
-        : getClientByEmail(user.email);
+  jwt.verify(
+    refreshToken,
+    process.env.REFRESH_TOKEN_SECRET,
+    async (err, user) => {
+      if (err) return res.sendStatus(403);
+      const userFromDB =
+        req.body.type === 'coach'
+          ? await getCoachByEmail(user.email)
+          : await getClientByEmail(user.email);
 
-    const accessToken =
-      userFromDB == null ? null : generateAccessToken(userFromDB);
+      const accessToken =
+        userFromDB == null ? null : userFromDB.generateAccessToken();
 
-    if (accessToken == null) {
-      res.sendStatus(403);
-    }
-    res
-      .cookie('access_token', accessToken, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-      })
-      .status(200)
-      .json({ message: 'Successfully refreshed access token' });
-  });
+      if (accessToken == null) {
+        return res.sendStatus(403);
+      }
+      return res
+        .cookie('access_token', accessToken, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production',
+        })
+        .status(200)
+        .json({ message: 'Successfully refreshed access token' });
+    },
+  );
 });
 
 app.post('/verify', authenticateToken, (req, res) => {
-  res.status(200).json({ message: 'Access token is correct' });
+  res.setHeader('Content-Type', 'application/json');
+  return res.status(200).json({ message: 'Access token is correct' });
 });
 
 app.delete('/logout', authenticateToken, (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
   return res
     .clearCookie('access_token')
     .clearCookie('refresh_token')
@@ -56,6 +69,7 @@ app.delete('/logout', authenticateToken, (req, res) => {
 });
 
 app.post('/login', async (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
   // Authentication - checking if user exists
   try {
     const userFromDatabase =
@@ -67,12 +81,12 @@ app.post('/login', async (req, res) => {
       return res.status(400).send('Cannot find user');
     }
     if (!(await bcrypt.compare(req.body.password, userFromDatabase.password))) {
-      return res.send('Not Allowed');
+      return res.sendStatus(403);
     }
 
     // Authorization - creating tokens and sending them to the client
-    const accessToken = generateAccessToken(userFromDatabase);
-    const refreshToken = generateRefreshToken(userFromDatabase);
+    const accessToken = userFromDatabase.generateAccessToken();
+    const refreshToken = userFromDatabase.generateRefreshToken();
     res
       .cookie('access_token', accessToken, {
         httpOnly: true,
@@ -90,14 +104,14 @@ app.post('/login', async (req, res) => {
 });
 
 app.post('/register', async (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
   try {
-    const errorRes = res
-      .status(403)
-      .send(`User with email: ${req.body.email} already exists`);
-
     if (req.body.type === 'coach') {
-      if ((await getByCoachByEmail(req.body.email)) ? true : false) {
-        return errorRes;
+      console.log(await getCoachByEmail(req.body.email));
+      if (await getCoachByEmail(req.body.email)) {
+        return res
+          .status(403)
+          .send(`User with email: ${req.body.email} already exists`);
       }
       await saveCoach(
         req.body.email,
@@ -108,8 +122,10 @@ app.post('/register', async (req, res) => {
     }
 
     if (req.body.type === 'client') {
-      if ((await getByClientByEmail(req.body.email)) ? true : false) {
-        return errorRes;
+      if (await getClientByEmail(req.body.email)) {
+        return res
+          .status(403)
+          .send(`User with email: ${req.body.email} already exists`);
       }
       await saveClient(
         req.body.email,
@@ -118,7 +134,8 @@ app.post('/register', async (req, res) => {
         req.body.lastName,
       );
     }
-    res.status(200).json({ message: 'User successfully created' });
+
+    return res.status(200).json({ message: 'User successfully created' });
   } catch (err) {
     console.log(err);
     res.sendStatus(500);

@@ -5,6 +5,7 @@ const {
   saveClientDAO,
   getClientsByPartialLastNameDAO,
 } = require('../dao/clientDao');
+const Client = require('../models/Client').Client;
 
 async function getAllClients() {
   try {
@@ -24,7 +25,7 @@ async function getClientByEmail(email) {
 
 async function saveClient(email, password, firstName, lastName) {
   try {
-    const newClient = new User();
+    const newClient = new Client();
     newClient.email = email;
     newClient.password = await bcrypt.hash(password, 10);
     newClient.firstName = firstName;

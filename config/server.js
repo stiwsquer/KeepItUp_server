@@ -9,3 +9,5 @@ app.listen(PORT, async () => {
   console.log(`Listening at localhost:${PORT}`);
   connection = await connect();
 });
+
+require('../controller/authController');
