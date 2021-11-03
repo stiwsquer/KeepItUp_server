@@ -24,7 +24,7 @@ function saveClientDAO(client) {
   return clientRepository.save(client);
 }
 
-function getClientsByPartialLastName(lastName) {
+function getClientsByPartialLastNameDAO(lastName) {
   const connection = getConnection();
   const clientRepository = connection.getRepository(Client);
   return clientRepository.find({
@@ -36,5 +36,5 @@ module.exports = {
   getAllClientsDAO,
   getClientByEmailDAO,
   saveClientDAO,
-  getClientsByPartialLastName,
+  getClientsByPartialLastNameDAO,
 };
