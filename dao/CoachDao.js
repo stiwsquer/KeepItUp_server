@@ -24,7 +24,7 @@ function saveCoachDAO(coach) {
   return coachRepository.save(coach);
 }
 
-function getCoachesByPartialLastName(lastName) {
+function getCoachesByPartialLastNameDAO(lastName) {
   const connection = getConnection();
   const coachRepository = connection.getRepository(Coach);
   return coachRepository.find({
@@ -36,5 +36,5 @@ module.exports = {
   getAllCoachesDAO,
   getCoachByEmailDAO,
   saveCoachDAO,
-  getCoachesByPartialLastName,
+  getCoachesByPartialLastNameDAO,
 };
