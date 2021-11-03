@@ -11,7 +11,13 @@ async function connect() {
       database: 'keepitup',
       synchronize: 'true',
       logging: false,
-      entities: [],
+      entities: [
+        require('../schemas/CalendarSchema'),
+        require('../schemas/ClientSchema'),
+        require('../schemas/CoachSchema'),
+        require('../schemas/ExerciseSchema'),
+        require('../schemas/WorkoutSchema'),
+      ],
     });
   } catch (err) {
     console.log(err);
