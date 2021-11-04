@@ -1,6 +1,6 @@
-const Like = require('typeorm').Like;
-const Coach = require('../models/Coach').Coach;
-const getConnection = require('typeorm').getConnection;
+const { Like } = require('typeorm');
+const { getConnection } = require('typeorm');
+const { Coach } = require('../models/Coach');
 
 function getAllCoachesDAO() {
   const connection = getConnection();
@@ -16,7 +16,7 @@ function getCoachByEmailDAO(email) {
   //     email: `${email}`,
   //   },
   // });
-  return coachRepository.findOne({ email: email });
+  return coachRepository.findOne({ email });
 }
 
 function saveCoachDAO(coach) {

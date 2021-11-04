@@ -1,5 +1,5 @@
-const EntitySchema = require('typeorm').EntitySchema;
-const Coach = require('../models/Coach').Coach;
+const { EntitySchema } = require('typeorm');
+const { Coach } = require('../models/Coach');
 
 module.exports = new EntitySchema({
   name: 'Coach',

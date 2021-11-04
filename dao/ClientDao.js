@@ -1,6 +1,6 @@
-const Like = require('typeorm').Like;
-const Client = require('../models/Client').Client;
-const getConnection = require('typeorm').getConnection;
+const { Like } = require('typeorm');
+const { getConnection } = require('typeorm');
+const { Client } = require('../models/Client');
 
 function getAllClientsDAO() {
   const connection = getConnection();
@@ -17,7 +17,7 @@ function getClientByEmailDAO(email) {
   //   },
   // });
 
-  return clientRepository.findOne({ email: email });
+  return clientRepository.findOne({ email });
 }
 
 function saveClientDAO(client) {

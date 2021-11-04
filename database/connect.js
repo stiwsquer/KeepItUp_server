@@ -1,8 +1,10 @@
-const typeorm = require('typeorm');
+/* eslint-disable global-require */
+
+const { createConnection } = require('typeorm');
 
 async function connect() {
   try {
-    return await typeorm.createConnection({
+    return await createConnection({
       type: 'postgres',
       host: 'localhost',
       port: 5432,
@@ -20,7 +22,7 @@ async function connect() {
       ],
     });
   } catch (err) {
-    console.log(err);
+    return console.error(err);
   }
 }
 

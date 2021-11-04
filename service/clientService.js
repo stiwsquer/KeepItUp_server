@@ -5,13 +5,14 @@ const {
   saveClientDAO,
   getClientsByPartialLastNameDAO,
 } = require('../dao/clientDao');
-const Client = require('../models/Client').Client;
+const { Client } = require('../models/Client');
 
 async function getAllClients() {
   try {
     return await getAllClientsDAO();
   } catch (err) {
     console.log(err);
+    return null;
   }
 }
 
@@ -20,19 +21,22 @@ async function getClientByEmail(email) {
     return await getClientByEmailDAO(email);
   } catch (err) {
     console.log(err);
+
+    return null;
   }
 }
 
-async function saveClient(email, password, firstName, lastName) {
+async function saveClient(data) {
   try {
     const newClient = new Client();
-    newClient.email = email;
-    newClient.password = await bcrypt.hash(password, 10);
-    newClient.firstName = firstName;
-    newClient.lastName = lastName;
+    newClient.email = data.email;
+    newClient.password = await bcrypt.hash(data.password, 10);
+    newClient.firstName = data.firstName;
+    newClient.lastName = data.lastName;
     return await saveClientDAO(newClient);
   } catch (err) {
     console.log(err);
+    return null;
   }
 }
 
@@ -41,6 +45,7 @@ async function getClientsByPartialLastName(lastName) {
     return await getClientsByPartialLastNameDAO(lastName);
   } catch (err) {
     console.log(err);
+    return null;
   }
 }
 
