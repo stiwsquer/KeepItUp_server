@@ -7,7 +7,11 @@ const {
 
 async function getAllExercisesMiddleware(req, res, next) {
   try {
-    req.exercises = await getAllExercises(req.coachId);
+    res.paginatedResults.results = await getAllExercises(
+      req.coachId,
+      req.startIndex,
+      req.limit,
+    );
   } catch (err) {
     return res.sendStatus(404);
   }
@@ -16,7 +20,10 @@ async function getAllExercisesMiddleware(req, res, next) {
 
 async function getAllDefaultExercisesMiddleware(req, res, next) {
   try {
-    req.exercises = await getAllDefaultExercises();
+    res.paginatedResults.results = await getAllDefaultExercises(
+      req.startIndex,
+      req.limit,
+    );
   } catch (err) {
     return res.sendStatus(404);
   }
@@ -25,7 +32,12 @@ async function getAllDefaultExercisesMiddleware(req, res, next) {
 async function getAllExercisesByNameMiddleware(req, res, next) {
   try {
     const { name } = req.params;
-    req.exercises = await getExercisesByName(name, req.coachId);
+    res.paginatedResults.results = await getExercisesByName(
+      name,
+      req.coachId,
+      req.startIndex,
+      req.limit,
+    );
   } catch (err) {
     return res.sendStatus(404);
   }

@@ -2,7 +2,7 @@ const { Like } = require('typeorm');
 const { getConnection } = require('typeorm');
 const { Exercise } = require('../models/Exercise');
 
-function getAllExercisesDAO(coachId) {
+function getAllExercisesDAO(coachId, startIndex, limit) {
   const connection = getConnection();
   const exerciseRepository = connection.getRepository(Exercise);
   return exerciseRepository.find({
@@ -14,16 +14,32 @@ function getAllExercisesDAO(coachId) {
         coach: null,
       },
     ],
+    order: {
+      id: 'ASC',
+    },
+    skip: startIndex,
+    take: limit,
   });
 }
 
-function getAllDefaultExercisesDAO() {
+function countExercisesDAO() {
+  const connection = getConnection();
+  const exerciseRepository = connection.getRepository(Exercise);
+  return exerciseRepository.count();
+}
+
+function getAllDefaultExercisesDAO(startIndex, limit) {
   const connection = getConnection();
   const exerciseRepository = connection.getRepository(Exercise);
   return exerciseRepository.find({
     where: {
       coach: null,
     },
+    order: {
+      id: 'ASC',
+    },
+    skip: startIndex,
+    take: limit,
   });
 }
 
@@ -33,7 +49,7 @@ function saveExerciseDAO(exercise) {
   return exerciseRepository.save(exercise);
 }
 
-function getExercisesByNameDAO(exerciseName, coachId) {
+function getExercisesByNameDAO(exerciseName, coachId, startIndex, limit) {
   const connection = getConnection();
   const exerciseRepository = connection.getRepository(Exercise);
   return exerciseRepository.find({
@@ -47,6 +63,8 @@ function getExercisesByNameDAO(exerciseName, coachId) {
         coach: null,
       },
     ],
+    skip: startIndex,
+    take: limit,
   });
 }
 
@@ -55,4 +73,5 @@ module.exports = {
   saveExerciseDAO,
   getExercisesByNameDAO,
   getAllDefaultExercisesDAO,
+  countExercisesDAO,
 };

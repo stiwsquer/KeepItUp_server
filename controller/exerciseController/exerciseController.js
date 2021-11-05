@@ -8,7 +8,8 @@ const {
   authRole,
   authenticateToken,
   setCoachId,
-} = require('../authMiddleware');
+  paginatedResults,
+} = require('../globalMiddleware');
 const { ROLE } = require('../roles');
 
 const { app } = require('../../loaders/loaders');
@@ -17,21 +18,23 @@ app.get(
   '/exercise',
   authenticateToken,
   setCoachId,
+  paginatedResults('exercise'),
   getAllExercisesMiddleware,
   (req, res) => {
     res.setHeader('Content-Type', 'application/json');
-    return res.send(req.exercises);
+    return res.json(res.paginatedResults);
   },
 );
 
 app.get(
-  '/exercise/name/:name',
+  '/exercise/:name',
   authenticateToken,
   setCoachId,
+  paginatedResults('exercise'),
   getAllExercisesByNameMiddleware,
   async (req, res) => {
     res.setHeader('Content-Type', 'application/json');
-    res.send(req.exercises);
+    return res.json(res.paginatedResults);
   },
 );
 
