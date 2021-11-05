@@ -23,7 +23,7 @@ module.exports = new EntitySchema({
       type: 'varchar',
     },
     url: {
-      type: 'varchar',
+      type: 'text',
       nullable: true,
     },
   },
