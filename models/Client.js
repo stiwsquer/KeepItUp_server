@@ -1,18 +1,19 @@
 const jwt = require('jsonwebtoken');
 
 class Client {
-  constructor(id, email, password, firstName, lastName, type) {
+  constructor(id, email, password, firstName, lastName, role, coach) {
     this.id = id;
     this.email = email;
     this.password = password;
     this.firstName = firstName;
     this.lastName = lastName;
-    this.type = type;
+    this.role = role;
+    this.coach = coach;
   }
 
   generateAccessToken() {
     return jwt.sign(
-      { email: this.email, id: this.id, type: this.type },
+      { email: this.email, id: this.id, type: this.role, coach: this.coach },
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: '1h' },
     );
@@ -20,7 +21,7 @@ class Client {
 
   generateRefreshToken() {
     return jwt.sign(
-      { email: this.email, id: this.id, type: this.type },
+      { email: this.email, id: this.id, type: this.role, coach: this.coach },
       process.env.REFRESH_TOKEN_SECRET,
     );
   }
