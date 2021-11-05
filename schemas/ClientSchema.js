@@ -1,5 +1,5 @@
-const EntitySchema = require('typeorm').EntitySchema;
-const Client = require('../models/Client').Client;
+const { EntitySchema } = require('typeorm');
+const { Client } = require('../models/Client');
 
 module.exports = new EntitySchema({
   name: 'Client',
@@ -21,6 +21,9 @@ module.exports = new EntitySchema({
       type: 'varchar',
     },
     lastName: {
+      type: 'varchar',
+    },
+    role: {
       type: 'varchar',
     },
   },

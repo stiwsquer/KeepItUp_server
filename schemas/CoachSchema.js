@@ -23,5 +23,8 @@ module.exports = new EntitySchema({
     lastName: {
       type: 'varchar',
     },
+    role: {
+      type: 'varchar',
+    },
   },
 });

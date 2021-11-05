@@ -1,17 +1,18 @@
 const jwt = require('jsonwebtoken');
 
 class Coach {
-  constructor(id, email, password, firstName, lastName) {
+  constructor(id, email, password, firstName, lastName, type) {
     this.id = id;
     this.email = email;
     this.password = password;
     this.firstName = firstName;
     this.lastName = lastName;
+    this.type = type;
   }
 
   generateAccessToken() {
     return jwt.sign(
-      { email: this.email, id: this.id },
+      { email: this.email, id: this.id, type: this.type },
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: '1h' },
     );
@@ -19,7 +20,7 @@ class Coach {
 
   generateRefreshToken() {
     return jwt.sign(
-      { email: this.email, id: this.id },
+      { email: this.email, id: this.id, type: this.type },
       process.env.REFRESH_TOKEN_SECRET,
     );
   }

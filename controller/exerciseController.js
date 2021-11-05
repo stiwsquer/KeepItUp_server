@@ -6,37 +6,61 @@ const {
 
 const { app, authenticateToken } = require('../loaders/loaders');
 
-app.get('/exercise', authenticateToken, async (req, res) => {
-  res.setHeader('Content-Type', 'application/json');
+async function getAllExercisesMiddleware(req, res, next) {
   try {
-    const exercises = await getAllExercises();
-    return res.send(exercises);
+    req.exercises = await getAllExercises();
   } catch (err) {
     return res.sendStatus(404);
   }
-});
+  return next();
+}
 
-app.get('/exercise/name/:name', authenticateToken, async (req, res) => {
-  res.setHeader('Content-Type', 'application/json');
+async function getAllExercisesByNameMiddleware(req, res, next) {
   try {
     const { name } = req.params;
-    const exercises = await getExercisesByName(name);
-    return res.send(exercises);
+    req.exercises = await getExercisesByName(name);
   } catch (err) {
     return res.sendStatus(404);
   }
-});
+  return next();
+}
 
-app.post('/exercise', authenticateToken, async (req, res) => {
-  res.setHeader('Content-Type', 'application/json');
-  req.body.coachId = req.user.id;
-  //   req.body.coachId = null;
-  console.log(req.body);
+async function saveExerciseMiddleware(req, res, next) {
   try {
-    const response = await saveExercise(req.body);
-    return res.send(response);
+    req.body.coachId = req.user.id;
+    req.response = await saveExercise(req.body);
   } catch (err) {
-    console.error(err);
     return res.sendStatus(500);
   }
-});
+  return next();
+}
+
+app.get(
+  '/exercise',
+  authenticateToken,
+  getAllExercisesMiddleware,
+  (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+    return res.send(req.exercises);
+  },
+);
+
+app.get(
+  '/exercise/name/:name',
+  authenticateToken,
+  getAllExercisesByNameMiddleware,
+  async (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+    res.send(req.exercises);
+  },
+);
+
+app.post(
+  '/exercise',
+  authenticateToken,
+  saveExerciseMiddleware,
+  async (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+    return res.send(req.response);
+  },
+);
