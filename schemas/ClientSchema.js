@@ -27,4 +27,12 @@ module.exports = new EntitySchema({
       type: 'varchar',
     },
   },
+  relations: {
+    coach: {
+      type: 'many-to-one',
+      target: 'Coach',
+      joinColumn: true,
+      nullable: true,
+    },
+  },
 });

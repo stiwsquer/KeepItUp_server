@@ -15,7 +15,8 @@ const {
   // getClientsByPartialLastName,
 } = require('../service/clientService');
 
-const { app, authenticateToken } = require('../loaders/loaders');
+const { authenticateToken } = require('./authMiddleware');
+const { app } = require('../loaders/loaders');
 
 app.get('/client', async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
