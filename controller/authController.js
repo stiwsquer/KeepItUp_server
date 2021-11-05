@@ -15,7 +15,7 @@ const {
   // getClientsByPartialLastName,
 } = require('../service/clientService');
 
-const { authenticateToken } = require('./authMiddleware');
+const { authenticateToken } = require('./globalMiddleware');
 const { app } = require('../loaders/loaders');
 
 app.get('/client', async (req, res) => {

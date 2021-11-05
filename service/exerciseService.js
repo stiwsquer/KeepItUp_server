@@ -3,21 +3,30 @@ const {
   saveExerciseDAO,
   getExercisesByNameDAO,
   getAllDefaultExercisesDAO,
+  countExercisesDAO,
 } = require('../dao/exerciseDao');
 const { Exercise } = require('../models/Exercise');
 
-async function getAllExercises(coachId) {
+async function getAllExercises(coachId, startIndex, limit) {
   try {
-    return await getAllExercisesDAO(coachId);
+    return await getAllExercisesDAO(coachId, startIndex, limit);
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+}
+async function countExercises() {
+  try {
+    return await countExercisesDAO();
   } catch (err) {
     console.log(err);
     return null;
   }
 }
 
-async function getAllDefaultExercises() {
+async function getAllDefaultExercises(startIndex, limit) {
   try {
-    return await getAllDefaultExercisesDAO();
+    return await getAllDefaultExercisesDAO(startIndex, limit);
   } catch (err) {
     console.log(err);
     return null;
@@ -40,9 +49,14 @@ async function saveExercise(data) {
   }
 }
 
-async function getExercisesByName(exerciseName, coachId) {
+async function getExercisesByName(exerciseName, coachId, startIndex, limit) {
   try {
-    return await getExercisesByNameDAO(exerciseName, coachId);
+    return await getExercisesByNameDAO(
+      exerciseName,
+      coachId,
+      startIndex,
+      limit,
+    );
   } catch (err) {
     console.log(err);
     return null;
@@ -54,4 +68,5 @@ module.exports = {
   saveExercise,
   getExercisesByName,
   getAllDefaultExercises,
+  countExercises,
 };
