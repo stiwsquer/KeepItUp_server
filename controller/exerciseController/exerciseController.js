@@ -10,7 +10,7 @@ const {
   setCoachId,
   paginatedResults,
 } = require('../globalMiddleware');
-const { ROLE } = require('../roles');
+const { ROLE, TABLE } = require('../roles');
 
 const { app } = require('../../loaders/loaders');
 
@@ -18,7 +18,7 @@ app.get(
   '/exercise',
   authenticateToken,
   setCoachId,
-  paginatedResults('exercise'),
+  paginatedResults(TABLE.EXERCISE),
   getAllExercisesMiddleware,
   (req, res) => {
     res.setHeader('Content-Type', 'application/json');
@@ -30,7 +30,7 @@ app.get(
   '/exercise/:name',
   authenticateToken,
   setCoachId,
-  paginatedResults('exercise'),
+  paginatedResults(TABLE.EXERCISE),
   getAllExercisesByNameMiddleware,
   async (req, res) => {
     res.setHeader('Content-Type', 'application/json');
