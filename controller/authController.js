@@ -80,7 +80,7 @@ app.post('/login', async (req, res) => {
         : await getClientByEmail(req.body.email);
 
     if (userFromDatabase == null) {
-      return res.status(400).json({ message: 'Cannot find user' });
+      return res.sendStatus(403);
     }
     if (!(await bcrypt.compare(req.body.password, userFromDatabase.password))) {
       return res.sendStatus(403);
