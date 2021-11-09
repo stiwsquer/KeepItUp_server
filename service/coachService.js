@@ -32,6 +32,7 @@ async function saveCoach(data) {
     newCoach.password = await bcrypt.hash(data.password, 10);
     newCoach.firstName = data.firstName;
     newCoach.lastName = data.lastName;
+    newCoach.role = data.role;
     return await saveCoachDAO(newCoach);
   } catch (err) {
     console.log(err);

@@ -1,7 +1,9 @@
 class Workout {
-  constructor(id, coachId) {
+  constructor(id, coachId, title, description) {
     this.id = id;
     this.coachId = coachId;
+    this.title = title;
+    this.description = description;
   }
 }
 

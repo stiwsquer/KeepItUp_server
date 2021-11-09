@@ -1,5 +1,5 @@
-const EntitySchema = require('typeorm').EntitySchema;
-const Workout = require('../models/Workout').Workout;
+const { EntitySchema } = require('typeorm');
+const { Workout } = require('../models/Workout');
 
 module.exports = new EntitySchema({
   name: 'Workout',
@@ -9,6 +9,12 @@ module.exports = new EntitySchema({
       primary: true,
       type: 'bigint',
       generated: 'true',
+    },
+    title: {
+      type: 'varchar',
+    },
+    description: {
+      type: 'text',
     },
   },
   relations: {

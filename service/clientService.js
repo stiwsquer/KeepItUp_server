@@ -33,6 +33,7 @@ async function saveClient(data) {
     newClient.password = await bcrypt.hash(data.password, 10);
     newClient.firstName = data.firstName;
     newClient.lastName = data.lastName;
+    newClient.role = data.role;
     return await saveClientDAO(newClient);
   } catch (err) {
     console.log(err);

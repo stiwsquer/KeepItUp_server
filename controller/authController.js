@@ -35,7 +35,7 @@ app.post('/token', async (req, res) => {
     async (err, user) => {
       if (err) return res.sendStatus(403);
       const userFromDB =
-        req.body.userType === 'coach'
+        req.body.role === 'coach'
           ? await getCoachByEmail(user.email)
           : await getClientByEmail(user.email);
 
@@ -75,7 +75,7 @@ app.post('/login', async (req, res) => {
   // Authentication - checking if user exists
   try {
     const userFromDatabase =
-      req.body.userType === 'coach'
+      req.body.role === 'coach'
         ? await getCoachByEmail(req.body.email)
         : await getClientByEmail(req.body.email);
 
@@ -107,8 +107,9 @@ app.post('/login', async (req, res) => {
 
 app.post('/register', async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
+  console.log(req.body);
   try {
-    if (req.body.userType === 'coach') {
+    if (req.body.role === 'coach') {
       if (await getCoachByEmail(req.body.email)) {
         return res
           .status(403)
@@ -117,7 +118,7 @@ app.post('/register', async (req, res) => {
       await saveCoach(req.body);
     }
 
-    if (req.body.userType === 'client') {
+    if (req.body.role === 'client') {
       if (await getClientByEmail(req.body.email)) {
         return res
           .status(403)

@@ -1,5 +1,5 @@
-const EntitySchema = require('typeorm').EntitySchema;
-const Calendar = require('../models/Calendar').Calendar;
+const { EntitySchema } = require('typeorm');
+const { Calendar } = require('../models/Calendar');
 
 module.exports = new EntitySchema({
   name: 'Calendar',
