@@ -1,14 +1,14 @@
 const jwt = require('jsonwebtoken');
 
 class Client {
-  constructor(id, email, password, firstName, lastName, role, coach) {
-    this.id = id;
-    this.email = email;
-    this.password = password;
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.role = role;
-    this.coach = coach;
+  constructor(data = {}) {
+    this.id = data.id;
+    this.email = data.email;
+    this.password = data.password;
+    this.firstName = data.firstName;
+    this.lastName = data.lastName;
+    this.role = data.role;
+    this.coach = data.coach;
   }
 
   generateAccessToken() {

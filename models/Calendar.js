@@ -1,10 +1,10 @@
 class Calendar {
-  constructor(id, date, clientId, workoutId, coachId) {
-    this.id = id;
-    this.date = date;
-    this.clientId = clientId;
-    this.workoutId = workoutId;
-    this.coachId = coachId;
+  constructor(data = {}) {
+    this.id = data.id;
+    this.date = data.date;
+    this.clientId = data.clientId;
+    this.workoutId = data.workoutId;
+    this.coachId = data.coachId;
   }
 }
 
