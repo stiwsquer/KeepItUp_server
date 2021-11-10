@@ -13,7 +13,7 @@ class Client {
 
   generateAccessToken() {
     return jwt.sign(
-      { email: this.email, id: this.id, type: this.role, coach: this.coach },
+      { email: this.email, id: this.id, role: this.role, coach: this.coach },
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: '1h' },
     );
@@ -21,7 +21,7 @@ class Client {
 
   generateRefreshToken() {
     return jwt.sign(
-      { email: this.email, id: this.id, type: this.role, coach: this.coach },
+      { email: this.email, id: this.id, role: this.role, coach: this.coach },
       process.env.REFRESH_TOKEN_SECRET,
     );
   }

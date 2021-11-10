@@ -24,7 +24,7 @@ module.exports = new EntitySchema({
       joinColumn: true,
       onDelete: 'CASCADE',
     },
-    workouts: {
+    exercises: {
       type: 'many-to-many',
       target: 'Exercise',
       joinTable: {

@@ -11,3 +11,4 @@ app.listen(PORT, async () => {
 
 require('./controller/authController');
 require('./controller/exerciseController/exerciseController');
+require('./controller/workoutController.js/workoutController');
