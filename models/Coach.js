@@ -1,13 +1,13 @@
 const jwt = require('jsonwebtoken');
 
 class Coach {
-  constructor(id, email, password, firstName, lastName, role) {
-    this.id = id;
-    this.email = email;
-    this.password = password;
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.role = role;
+  constructor(data = {}) {
+    this.id = data.id;
+    this.email = data.email;
+    this.password = data.password;
+    this.firstName = data.firstName;
+    this.lastName = data.lastName;
+    this.role = data.role;
   }
 
   generateAccessToken() {

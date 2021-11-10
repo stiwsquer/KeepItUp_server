@@ -36,13 +36,7 @@ async function getAllDefaultExercises(startIndex, limit) {
 
 async function saveExercise(data) {
   try {
-    const newExercise = new Exercise();
-    newExercise.coachId = data.coachId;
-    newExercise.bodyPart = data.bodyPart;
-    newExercise.equipment = data.equipment;
-    newExercise.name = data.name;
-    newExercise.target = data.target;
-    newExercise.url = data.url;
+    const newExercise = new Exercise(data);
     return await saveExerciseDAO(newExercise);
   } catch (err) {
     console.log(err);

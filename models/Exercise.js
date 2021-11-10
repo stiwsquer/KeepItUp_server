@@ -1,12 +1,12 @@
 class Exercise {
-  constructor(id, coachId, bodyPart, equipment, name, target, url) {
-    this.id = id;
-    this.coachId = coachId;
-    this.bodyPart = bodyPart;
-    this.equipment = equipment;
-    this.name = name;
-    this.target = target;
-    this.url = url;
+  constructor(data = {}) {
+    this.id = data.id;
+    this.coachId = data.coachId;
+    this.bodyPart = data.bodyPart;
+    this.equipment = data.equipment;
+    this.name = data.name;
+    this.target = data.target;
+    this.url = data.url;
   }
 }
 

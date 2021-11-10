@@ -27,12 +27,8 @@ async function getCoachByEmail(email) {
 
 async function saveCoach(data) {
   try {
-    const newCoach = new Coach();
-    newCoach.email = data.email;
+    const newCoach = new Coach(data);
     newCoach.password = await bcrypt.hash(data.password, 10);
-    newCoach.firstName = data.firstName;
-    newCoach.lastName = data.lastName;
-    newCoach.role = data.role;
     return await saveCoachDAO(newCoach);
   } catch (err) {
     console.log(err);
