@@ -68,10 +68,16 @@ function getExercisesByNameDAO(exerciseName, coachId, startIndex, limit) {
   });
 }
 
+function getExercisesByIdDAO(id) {
+  const connection = getConnection();
+  const exerciseRepository = connection.getRepository(Exercise);
+  return exerciseRepository.findOne(id);
+}
 module.exports = {
   getAllExercisesDAO,
   saveExerciseDAO,
   getExercisesByNameDAO,
   getAllDefaultExercisesDAO,
   countExercisesDAO,
+  getExercisesByIdDAO,
 };

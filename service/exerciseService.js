@@ -4,6 +4,7 @@ const {
   getExercisesByNameDAO,
   getAllDefaultExercisesDAO,
   countExercisesDAO,
+  getExercisesByIdDAO,
 } = require('../dao/exerciseDao');
 const { Exercise } = require('../models/Exercise');
 
@@ -63,10 +64,20 @@ async function getExercisesByName(exerciseName, coachId, startIndex, limit) {
   }
 }
 
+async function getExerciseById(id) {
+  try {
+    return await getExercisesByIdDAO(id);
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+}
+
 module.exports = {
   getAllExercises,
   saveExercise,
   getExercisesByName,
   getAllDefaultExercises,
   countExercises,
+  getExerciseById,
 };
