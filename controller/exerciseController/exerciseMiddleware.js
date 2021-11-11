@@ -34,7 +34,7 @@ async function getAllExercisesByNameMiddleware(req, res, next) {
     const { name } = req.params;
     res.paginatedResults.results = await getExercisesByName(
       name,
-      req.coachId,
+      req.coach,
       req.startIndex,
       req.limit,
     );

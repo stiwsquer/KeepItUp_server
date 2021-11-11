@@ -33,17 +33,23 @@ function setCoachId(req, res, next) {
 
 function paginatedResults(model) {
   return async (req, res, next) => {
+    const results = {};
+    if (!req.query.page || !req.query.limit) {
+      res.paginatedResults = results;
+      return next();
+    }
     const page = parseInt(req.query.page, 10);
     const limit = parseInt(req.query.limit, 10);
 
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
 
-    const results = {};
-
     let count;
 
+    /* TODO: create methods for counting entities with params */
     if (model === TABLE.EXERCISE) {
+      count = await countExercises();
+    } else if (model === TABLE.CLIENT) {
       count = await countExercises();
     }
 
@@ -64,7 +70,7 @@ function paginatedResults(model) {
     req.startIndex = startIndex;
     req.limit = limit;
     res.paginatedResults = results;
-    next();
+    return next();
   };
 }
 
