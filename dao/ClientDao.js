@@ -50,7 +50,7 @@ function getClientsByEmailDAO(email, coachId, startIndex, limit) {
 function getClientByEmailDAO(email) {
   const connection = getConnection();
   const clientRepository = connection.getRepository(Client);
-  return clientRepository.findOne({ email });
+  return clientRepository.findOne({ where: [{ email }], relations: ['coach'] });
 }
 
 module.exports = {

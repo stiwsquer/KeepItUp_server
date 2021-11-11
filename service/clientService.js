@@ -59,17 +59,13 @@ async function getClientsByLastName(lastName) {
   }
 }
 
-//coach field of Client object is undefined when reading client from db  ?!?!?!?!?!?!
 async function updateCoachOfClient(coachId, clientEmail, deleteCoach) {
   try {
     const coach = await getCoachById(coachId);
     const clientToUpdate = await getClientByEmailDAO(clientEmail);
-    // console.log('client to update');
-    // console.log(clientToUpdate);
-    // if (clientToUpdate.coach !== null) {
-    //   if (clientToUpdate.coach.id !== coachId) return null;
-    // }
-
+    if (clientToUpdate.coach !== null) {
+      if (clientToUpdate.coach.id !== coachId) return null;
+    }
     clientToUpdate.coach = deleteCoach ? null : coach;
     return await saveClientDAO(clientToUpdate);
   } catch (err) {
