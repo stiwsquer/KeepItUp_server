@@ -4,6 +4,7 @@ const {
   getCoachByEmailDAO,
   saveCoachDAO,
   getCoachesByPartialLastNameDAO,
+  getCoachByIdDAO,
 } = require('../dao/coachDao');
 const { Coach } = require('../models/Coach');
 
@@ -19,6 +20,15 @@ async function getAllCoaches() {
 async function getCoachByEmail(email) {
   try {
     return await getCoachByEmailDAO(email);
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+}
+
+async function getCoachById(id) {
+  try {
+    return await getCoachByIdDAO(id);
   } catch (err) {
     console.log(err);
     return null;
@@ -50,4 +60,5 @@ module.exports = {
   getCoachByEmail,
   saveCoach,
   getCoachesByPartialLastName,
+  getCoachById,
 };

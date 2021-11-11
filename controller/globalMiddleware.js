@@ -74,9 +74,24 @@ function paginatedResults(model) {
   };
 }
 
+function filterOutPassword(req, res, next) {
+  const { results } = res.paginatedResults;
+  res.paginatedResults.results = results.map((user) => {
+    return {
+      id: user.id,
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      role: user.role,
+    };
+  });
+  return next();
+}
+
 module.exports = {
   authRole,
   authenticateToken,
   setCoachId,
   paginatedResults,
+  filterOutPassword,
 };
