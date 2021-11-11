@@ -9,7 +9,6 @@ const {
   // generateRefreshToken,
 } = require('../service/coachService');
 const {
-  getAllClients,
   getClientByEmail,
   saveClient,
   // getClientsByPartialLastName,
@@ -17,12 +16,6 @@ const {
 
 const { authenticateToken } = require('./globalMiddleware');
 const { app } = require('../loaders/loaders');
-
-app.get('/client', async (req, res) => {
-  res.setHeader('Content-Type', 'application/json');
-  const clients = await getAllClients();
-  res.send(clients);
-});
 
 app.post('/token', async (req, res) => {
   res.setHeader('Content-Type', 'application/json');

@@ -1,17 +1,28 @@
 const bcrypt = require('bcrypt');
 const {
   getAllClientsDAO,
+  getClientsByEmailDAO,
   getClientByEmailDAO,
   saveClientDAO,
-  getClientsByPartialLastNameDAO,
+  getClientsByLastNameDAO,
 } = require('../dao/clientDao');
 const { Client } = require('../models/Client');
 
-async function getAllClients() {
+async function getAllClients(coachId, startIndex, limit) {
   try {
-    return await getAllClientsDAO();
+    return await getAllClientsDAO(coachId, startIndex, limit);
   } catch (err) {
     console.log(err);
+    return null;
+  }
+}
+
+async function getClientsByEmail(email, coachId, startIndex, limit) {
+  try {
+    return await getClientsByEmailDAO(email, coachId, startIndex, limit);
+  } catch (err) {
+    console.log(err);
+
     return null;
   }
 }
@@ -37,9 +48,20 @@ async function saveClient(data) {
   }
 }
 
-async function getClientsByPartialLastName(lastName) {
+async function getClientsByLastName(lastName) {
   try {
-    return await getClientsByPartialLastNameDAO(lastName);
+    return await getClientsByLastNameDAO(lastName);
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+}
+
+async function updateCoachOfClient(coachId, email, deleteCoach) {
+  try {
+    const clientToUpdate = await getClientByEmailDAO(email);
+    clientToUpdate.coach = deleteCoach ? null : coachId;
+    return await saveClientDAO(clientToUpdate);
   } catch (err) {
     console.log(err);
     return null;
@@ -56,9 +78,11 @@ function generateRefreshToken(client) {
 
 module.exports = {
   getAllClients,
-  getClientByEmail,
+  getClientsByEmail,
   saveClient,
-  getClientsByPartialLastName,
+  getClientsByLastName,
   generateAccessToken,
   generateRefreshToken,
+  getClientByEmail,
+  updateCoachOfClient,
 };

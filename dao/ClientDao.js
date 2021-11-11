@@ -2,22 +2,21 @@ const { Like } = require('typeorm');
 const { getConnection } = require('typeorm');
 const { Client } = require('../models/Client');
 
-function getAllClientsDAO() {
+function getAllClientsDAO(coachId, startIndex, limit) {
   const connection = getConnection();
   const clientRepository = connection.getRepository(Client);
-  return clientRepository.find();
-}
-
-function getClientByEmailDAO(email) {
-  const connection = getConnection();
-  const clientRepository = connection.getRepository(Client);
-  // return clientRepository.find({
-  //   where: {
-  //     email: `${email}`,
-  //   },
-  // });
-
-  return clientRepository.findOne({ email });
+  return clientRepository.find({
+    where: [
+      {
+        coach: coachId,
+      },
+    ],
+    order: {
+      id: 'ASC',
+    },
+    skip: startIndex,
+    take: limit,
+  });
 }
 
 function saveClientDAO(client) {
@@ -26,7 +25,7 @@ function saveClientDAO(client) {
   return clientRepository.save(client);
 }
 
-function getClientsByPartialLastNameDAO(lastName) {
+function getClientsByLastNameDAO(lastName) {
   const connection = getConnection();
   const clientRepository = connection.getRepository(Client);
   return clientRepository.find({
@@ -34,9 +33,30 @@ function getClientsByPartialLastNameDAO(lastName) {
   });
 }
 
+function getClientsByEmailDAO(email, coachId, startIndex, limit) {
+  const connection = getConnection();
+  const clientRepository = connection.getRepository(Client);
+  return clientRepository.find({
+    where: [
+      {
+        email: Like(`%${email}%`),
+        coach: coachId,
+      },
+    ],
+    skip: startIndex,
+    take: limit,
+  });
+}
+function getClientByEmailDAO(email) {
+  const connection = getConnection();
+  const clientRepository = connection.getRepository(Client);
+  return clientRepository.findOne({ email });
+}
+
 module.exports = {
   getAllClientsDAO,
-  getClientByEmailDAO,
   saveClientDAO,
-  getClientsByPartialLastNameDAO,
+  getClientsByLastNameDAO,
+  getClientsByEmailDAO,
+  getClientByEmailDAO,
 };
