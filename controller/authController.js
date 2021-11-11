@@ -16,8 +16,9 @@ const {
 
 const { authenticateToken } = require('./globalMiddleware');
 const { app } = require('../loaders/loaders');
+const { ROLE } = require('./roles');
 
-app.post('/token', async (req, res) => {
+app.post('/token', authenticateToken, async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   const refreshToken = req.cookies.refresh_token;
   if (refreshToken == null) return res.sendStatus(401);
@@ -28,7 +29,7 @@ app.post('/token', async (req, res) => {
     async (err, user) => {
       if (err) return res.sendStatus(403);
       const userFromDB =
-        req.body.role === 'coach'
+        req.user.role === ROLE.COACH
           ? await getCoachByEmail(user.email)
           : await getClientByEmail(user.email);
 
@@ -43,8 +44,7 @@ app.post('/token', async (req, res) => {
           httpOnly: true,
           secure: process.env.NODE_ENV === 'production',
         })
-        .status(200)
-        .json({ message: 'Successfully refreshed access token' });
+        .sendStatus(200);
     },
   );
 });
