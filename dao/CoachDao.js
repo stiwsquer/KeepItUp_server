@@ -19,6 +19,12 @@ function getCoachByEmailDAO(email) {
   return coachRepository.findOne({ email });
 }
 
+function getCoachByIdDAO(id) {
+  const connection = getConnection();
+  const coachRepository = connection.getRepository(Coach);
+  return coachRepository.findOne(id);
+}
+
 function saveCoachDAO(coach) {
   const connection = getConnection();
   const coachRepository = connection.getRepository(Coach);
@@ -38,4 +44,5 @@ module.exports = {
   getCoachByEmailDAO,
   saveCoachDAO,
   getCoachesByPartialLastNameDAO,
+  getCoachByIdDAO,
 };
