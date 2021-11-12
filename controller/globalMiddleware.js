@@ -51,6 +51,8 @@ function paginatedResults(model) {
       count = await countExercises();
     } else if (model === TABLE.CLIENT) {
       count = await countExercises();
+    } else if (model === TABLE.WORKOUT) {
+      count = await countExercises();
     }
 
     if (endIndex < count) {
