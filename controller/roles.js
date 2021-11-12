@@ -6,6 +6,7 @@ const ROLE = {
 const TABLE = {
   EXERCISE: 'exercise',
   CLIENT: 'client',
+  WORKOUT: 'workout',
 };
 
 module.exports = {
