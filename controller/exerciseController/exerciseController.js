@@ -41,7 +41,7 @@ app.get(
 app.post(
   '/exercise',
   authenticateToken,
-  authRole(ROLE.COACH),
+  authRole([ROLE.COACH]),
   saveExerciseMiddleware,
   async (req, res) => {
     res.setHeader('Content-Type', 'application/json');

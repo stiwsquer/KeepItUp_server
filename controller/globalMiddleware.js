@@ -2,9 +2,9 @@ const jwt = require('jsonwebtoken');
 const { countExercises } = require('../service/exerciseService');
 const { ROLE, TABLE } = require('./roles');
 
-function authRole(role) {
+function authRole(roles) {
   return (req, res, next) => {
-    if (req.user.role !== role) {
+    if (!roles.includes(req.user.role)) {
       return res.sendStatus(403);
     }
     return next();
@@ -52,6 +52,8 @@ function paginatedResults(model) {
     } else if (model === TABLE.CLIENT) {
       count = await countExercises();
     } else if (model === TABLE.WORKOUT) {
+      count = await countExercises();
+    } else if (model === TABLE.CALENDAR) {
       count = await countExercises();
     }
 

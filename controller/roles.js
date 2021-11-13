@@ -7,6 +7,7 @@ const TABLE = {
   EXERCISE: 'exercise',
   CLIENT: 'client',
   WORKOUT: 'workout',
+  CALENDAR: 'calendar',
 };
 
 module.exports = {
