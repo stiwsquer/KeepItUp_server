@@ -2,6 +2,7 @@ const {
   saveWorkout,
   getAllWorkouts,
   getWorkoutByTitle,
+  getWorkoutById,
 } = require('../../service/workoutService');
 
 async function getAllWorkoutsMiddleware(req, res, next) {
@@ -32,6 +33,16 @@ async function getWorkoutByTitleMiddleware(req, res, next) {
   return next();
 }
 
+async function getWorkoutByIdMiddleware(req, res, next) {
+  try {
+    const { id } = req.params;
+    res.paginatedResults.results = await getWorkoutById(id);
+  } catch (err) {
+    return res.sendStatus(404);
+  }
+  return next();
+}
+
 async function saveWorkoutMiddleware(req, res, next) {
   try {
     req.body.coach = req.user.id;
@@ -46,4 +57,5 @@ module.exports = {
   saveWorkoutMiddleware,
   getAllWorkoutsMiddleware,
   getWorkoutByTitleMiddleware,
+  getWorkoutByIdMiddleware,
 };

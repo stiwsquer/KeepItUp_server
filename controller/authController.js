@@ -103,19 +103,17 @@ app.post('/register', async (req, res) => {
   console.log(req.body);
   try {
     if (req.body.role === 'coach') {
+      console.log(req.body);
       if (await getCoachByEmail(req.body.email)) {
-        return res
-          .status(403)
-          .send(`User with email: ${req.body.email} already exists`);
+        return res.sendStatus(403);
       }
       await saveCoach(req.body);
     }
 
     if (req.body.role === 'client') {
       if (await getClientByEmail(req.body.email)) {
-        return res
-          .status(403)
-          .send(`User with email: ${req.body.email} already exists`);
+        return res.sendStatus(403);
+        // .send(`User with email: ${req.body.email} already exists`);
       }
       await saveClient(req.body);
     }

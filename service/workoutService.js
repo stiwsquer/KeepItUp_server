@@ -2,6 +2,7 @@ const {
   saveWorkoutDAO,
   getAllWorkoutsDAO,
   getWorkoutsByTitleDAO,
+  getWorkoutByIdDAO,
 } = require('../dao/WorkoutDao');
 const { Workout } = require('../models/Workout');
 
@@ -14,6 +15,14 @@ async function getAllWorkouts(coachId, startIndex, limit) {
   }
 }
 
+async function getWorkoutById(id) {
+  try {
+    return await getWorkoutByIdDAO(id);
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+}
 async function getWorkoutByTitle(workoutTitle, coachId, startIndex, limit) {
   try {
     return await getWorkoutsByTitleDAO(
@@ -38,4 +47,9 @@ async function saveWorkout(data) {
   }
 }
 
-module.exports = { saveWorkout, getAllWorkouts, getWorkoutByTitle };
+module.exports = {
+  saveWorkout,
+  getAllWorkouts,
+  getWorkoutByTitle,
+  getWorkoutById,
+};

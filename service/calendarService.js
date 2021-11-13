@@ -1,4 +1,9 @@
-const { saveCalendarDAO } = require('../dao/CalendarDao');
+const {
+  saveCalendarDAO,
+  getCalendarByClientDAO,
+  deleteCalendarByIdDAO,
+  getCalendarByIdDAO,
+} = require('../dao/CalendarDao');
 const { Calendar } = require('../models/Calendar');
 
 async function saveCalendar(data) {
@@ -11,4 +16,35 @@ async function saveCalendar(data) {
   }
 }
 
-module.exports = { saveCalendar };
+async function getCalendarByClient(client, coach, startIndex, limit) {
+  try {
+    return await getCalendarByClientDAO(client, coach, startIndex, limit);
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+}
+
+async function getCalendarById(id) {
+  try {
+    return await getCalendarByIdDAO(id);
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+}
+
+async function deleteCalendarById(id) {
+  try {
+    return await deleteCalendarByIdDAO(id);
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+}
+module.exports = {
+  saveCalendar,
+  getCalendarByClient,
+  deleteCalendarById,
+  getCalendarById,
+};

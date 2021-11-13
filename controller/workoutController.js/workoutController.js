@@ -2,6 +2,7 @@ const {
   saveWorkoutMiddleware,
   getAllWorkoutsMiddleware,
   getWorkoutByTitleMiddleware,
+  getWorkoutByIdMiddleware,
 } = require('./workoutMiddleware');
 
 const {
@@ -17,7 +18,7 @@ const { app } = require('../../loaders/loaders');
 app.get(
   '/workout',
   authenticateToken,
-  authRole(ROLE.COACH),
+  authRole([ROLE.COACH]),
   setCoachId,
   paginatedResults(TABLE.WORKOUT),
   getAllWorkoutsMiddleware,
@@ -30,10 +31,22 @@ app.get(
 app.get(
   '/workout/:title',
   authenticateToken,
-  authRole(ROLE.COACH),
+  authRole([ROLE.COACH]),
   setCoachId,
-  paginatedResults(TABLE.EXERCISE),
+  paginatedResults(TABLE.WORKOUT),
   getWorkoutByTitleMiddleware,
+  async (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+    return res.json(res.paginatedResults);
+  },
+);
+
+app.get(
+  '/workout/id/:id',
+  authenticateToken,
+  authRole([ROLE.COACH, ROLE.CLIENT]),
+  paginatedResults(TABLE.WORKOUT),
+  getWorkoutByIdMiddleware,
   async (req, res) => {
     res.setHeader('Content-Type', 'application/json');
     return res.json(res.paginatedResults);
@@ -43,7 +56,7 @@ app.get(
 app.post(
   '/workout',
   authenticateToken,
-  authRole(ROLE.COACH),
+  authRole([ROLE.COACH]),
   saveWorkoutMiddleware,
   async (req, res) => {
     res.setHeader('Content-Type', 'application/json');

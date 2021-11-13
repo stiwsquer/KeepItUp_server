@@ -17,7 +17,7 @@ const { app } = require('../../loaders/loaders');
 app.get(
   '/client',
   authenticateToken,
-  authRole(ROLE.COACH),
+  authRole([ROLE.COACH]),
   setCoachId,
   paginatedResults(TABLE.CLIENT),
   getAllClientsMiddleware,
@@ -31,7 +31,7 @@ app.get(
 app.get(
   '/client/:email',
   authenticateToken,
-  authRole(ROLE.COACH),
+  authRole([ROLE.COACH]),
   setCoachId,
   paginatedResults(TABLE.CLIENT),
   getClientsByEmailMiddleware,
@@ -45,7 +45,7 @@ app.get(
 app.patch(
   '/client/:email',
   authenticateToken,
-  authRole(ROLE.COACH),
+  authRole([ROLE.COACH]),
   checkIfClientExists,
   setCoachId,
   paginatedResults(TABLE.CLIENT),

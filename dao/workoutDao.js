@@ -43,6 +43,19 @@ function getWorkoutsByTitleDAO(workoutTitle, coachId, startIndex, limit) {
   });
 }
 
+function getWorkoutByIdDAO(id) {
+  const connection = getConnection();
+  const workoutRepository = connection.getRepository(Workout);
+  return workoutRepository.find({
+    where: [
+      {
+        id,
+      },
+    ],
+    relations: ['coach', 'exercises'],
+  });
+}
+
 function saveWorkoutDAO(workout) {
   const connection = getConnection();
   const workoutRepository = connection.getRepository(Workout);
@@ -53,4 +66,5 @@ module.exports = {
   saveWorkoutDAO,
   getAllWorkoutsDAO,
   getWorkoutsByTitleDAO,
+  getWorkoutByIdDAO,
 };
