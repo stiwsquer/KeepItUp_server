@@ -2,9 +2,9 @@ class Calendar {
   constructor(data = {}) {
     this.id = data.id;
     this.date = data.date;
-    this.clientId = data.clientId;
-    this.workoutId = data.workoutId;
-    this.coachId = data.coachId;
+    this.client = data.client;
+    this.workout = data.workout;
+    this.coach = data.coach;
   }
 }
 

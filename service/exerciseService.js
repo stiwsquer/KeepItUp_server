@@ -5,7 +5,7 @@ const {
   getAllDefaultExercisesDAO,
   countExercisesDAO,
   getExercisesByIdDAO,
-} = require('../dao/exerciseDao');
+} = require('../dao/ExerciseDao');
 const { Exercise } = require('../models/Exercise');
 
 async function getAllExercises(coachId, startIndex, limit) {
