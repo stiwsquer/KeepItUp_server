@@ -2,7 +2,7 @@ const {
   saveWorkoutDAO,
   getAllWorkoutsDAO,
   getWorkoutsByTitleDAO,
-} = require('../dao/workoutDao');
+} = require('../dao/WorkoutDao');
 const { Workout } = require('../models/Workout');
 
 async function getAllWorkouts(coachId, startIndex, limit) {
