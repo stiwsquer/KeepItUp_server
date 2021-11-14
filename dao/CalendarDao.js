@@ -27,6 +27,20 @@ function getCalendarByClientDAO(client, coach, startIndex, limit) {
   });
 }
 
+function getCalendarsDAO(params, startIndex, limit) {
+  const connection = getConnection();
+  const calendarRepository = connection.getRepository(Calendar);
+  return calendarRepository.find({
+    where: [params],
+    order: {
+      date: 'ASC',
+    },
+    skip: startIndex,
+    take: limit,
+    relations: ['coach', 'workout', 'client'],
+  });
+}
+
 function getCalendarByIdDAO(id) {
   const connection = getConnection();
   const calendarRepository = connection.getRepository(Calendar);
@@ -51,4 +65,5 @@ module.exports = {
   getCalendarByClientDAO,
   deleteCalendarByIdDAO,
   getCalendarByIdDAO,
+  getCalendarsDAO,
 };

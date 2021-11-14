@@ -3,6 +3,7 @@ const {
   getCalendarByClient,
   deleteCalendarById,
   getCalendarById,
+  getCalendars,
 } = require('../../service/calendarService');
 const { ROLE } = require('../roles');
 
@@ -22,6 +23,38 @@ async function getCalendarByClientMiddleware(req, res, next) {
     res.paginatedResults.results = await getCalendarByClient(
       client,
       req.coachId,
+      req.startIndex,
+      req.limit,
+    );
+  } catch (err) {
+    return res.sendStatus(404);
+  }
+  return next();
+}
+
+async function getCalendarsMiddleware(req, res, next) {
+  try {
+    res.paginatedResults.results = await getCalendars(
+      req.body,
+      req.startIndex,
+      req.limit,
+    );
+  } catch (err) {
+    return res.sendStatus(404);
+  }
+  return next();
+}
+
+async function getCalendarsByDateMiddleware(req, res, next) {
+  try {
+    const { role, id } = req.user;
+    const { date } = req.params;
+    const params = {
+      date,
+      [role]: id,
+    };
+    res.paginatedResults.results = await getCalendars(
+      params,
       req.startIndex,
       req.limit,
     );
@@ -67,4 +100,6 @@ module.exports = {
   getCalendarByClientMiddleware,
   deleteCalendarByIdMiddleware,
   checkPermissions,
+  getCalendarsMiddleware,
+  getCalendarsByDateMiddleware,
 };
