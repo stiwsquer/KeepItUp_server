@@ -1,20 +1,9 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const {
-  // getAllCoaches,
-  getCoachByEmail,
-  saveCoach,
-  // getCoachesByPartialLastName,
-  // generateAccessToken,
-  // generateRefreshToken,
-} = require('../service/coachService');
-const {
-  getClientByEmail,
-  saveClient,
-  // getClientsByPartialLastName,
-} = require('../service/clientService');
+const { getCoachByEmail, saveCoach } = require('../service/coachService');
+const { getClientByEmail, saveClient } = require('../service/clientService');
 
-const { authenticateToken } = require('./globalMiddleware');
+const { authenticateToken, authRole } = require('./globalMiddleware');
 const { app } = require('../loaders/loaders');
 const { ROLE } = require('./roles');
 
@@ -49,10 +38,15 @@ app.post('/token', authenticateToken, async (req, res) => {
   );
 });
 
-app.post('/verify', authenticateToken, (req, res) => {
-  res.setHeader('Content-Type', 'application/json');
-  return res.status(200).json({ message: 'Access token is correct' });
-});
+app.post(
+  '/verify',
+  authenticateToken,
+  authRole([ROLE.COACH, ROLE.CLIENT]),
+  (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+    return res.status(200).json(req.user);
+  },
+);
 
 app.delete('/logout', authenticateToken, (req, res) => {
   res.setHeader('Content-Type', 'application/json');
@@ -68,7 +62,7 @@ app.post('/login', async (req, res) => {
   // Authentication - checking if user exists
   try {
     const userFromDatabase =
-      req.body.role === 'coach'
+      req.body.role === ROLE.COACH
         ? await getCoachByEmail(req.body.email)
         : await getClientByEmail(req.body.email);
 

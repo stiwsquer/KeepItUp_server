@@ -12,7 +12,13 @@ class Coach {
 
   generateAccessToken() {
     return jwt.sign(
-      { email: this.email, id: this.id, role: this.role },
+      {
+        email: this.email,
+        id: this.id,
+        role: this.role,
+        firstName: this.firstName,
+        lastName: this.lastName,
+      },
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: '1h' },
     );
@@ -20,8 +26,15 @@ class Coach {
 
   generateRefreshToken() {
     return jwt.sign(
-      { email: this.email, id: this.id, role: this.role },
+      {
+        email: this.email,
+        id: this.id,
+        role: this.role,
+        firstName: this.firstName,
+        lastName: this.lastName,
+      },
       process.env.REFRESH_TOKEN_SECRET,
+      { expiresIn: '24h' },
     );
   }
 }
