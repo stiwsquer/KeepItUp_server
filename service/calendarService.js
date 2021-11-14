@@ -3,6 +3,7 @@ const {
   getCalendarByClientDAO,
   deleteCalendarByIdDAO,
   getCalendarByIdDAO,
+  getCalendarsDAO,
 } = require('../dao/CalendarDao');
 const { Calendar } = require('../models/Calendar');
 
@@ -25,6 +26,14 @@ async function getCalendarByClient(client, coach, startIndex, limit) {
   }
 }
 
+async function getCalendars(params, startIndex, limit) {
+  try {
+    return await getCalendarsDAO(params, startIndex, limit);
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+}
 async function getCalendarById(id) {
   try {
     return await getCalendarByIdDAO(id);
@@ -47,4 +56,5 @@ module.exports = {
   getCalendarByClient,
   deleteCalendarById,
   getCalendarById,
+  getCalendars,
 };
