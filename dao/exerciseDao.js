@@ -19,6 +19,7 @@ function getAllExercisesDAO(coachId, startIndex, limit) {
     },
     skip: startIndex,
     take: limit,
+    relations: ['coach'],
   });
 }
 
@@ -40,6 +41,7 @@ function getAllDefaultExercisesDAO(startIndex, limit) {
     },
     skip: startIndex,
     take: limit,
+    relations: ['coach'],
   });
 }
 
@@ -65,13 +67,23 @@ function getExercisesByNameDAO(exerciseName, coachId, startIndex, limit) {
     ],
     skip: startIndex,
     take: limit,
+    relations: ['coach'],
+  });
+}
+
+function deleteExerciseByIdDAO(id, coachId) {
+  const connection = getConnection();
+  const exerciseRepository = connection.getRepository(Exercise);
+  return exerciseRepository.delete({
+    id,
+    coach: coachId,
   });
 }
 
 function getExercisesByIdDAO(id) {
   const connection = getConnection();
   const exerciseRepository = connection.getRepository(Exercise);
-  return exerciseRepository.findOne(id);
+  return exerciseRepository.findOne(id, { relations: ['coach'] });
 }
 module.exports = {
   getAllExercisesDAO,
@@ -80,4 +92,5 @@ module.exports = {
   getAllDefaultExercisesDAO,
   countExercisesDAO,
   getExercisesByIdDAO,
+  deleteExerciseByIdDAO,
 };

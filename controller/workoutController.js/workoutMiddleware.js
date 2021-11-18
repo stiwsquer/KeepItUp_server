@@ -3,6 +3,7 @@ const {
   getAllWorkouts,
   getWorkoutByTitle,
   getWorkoutById,
+  deleteWorkoutById,
 } = require('../../service/workoutService');
 
 async function getAllWorkoutsMiddleware(req, res, next) {
@@ -46,7 +47,18 @@ async function getWorkoutByIdMiddleware(req, res, next) {
 async function saveWorkoutMiddleware(req, res, next) {
   try {
     req.body.coach = req.user.id;
+    console.log(req.body);
     req.response = await saveWorkout(req.body);
+  } catch (err) {
+    return res.sendStatus(500);
+  }
+  return next();
+}
+async function deleteWorkoutByIdMiddleware(req, res, next) {
+  try {
+    console.log(req.params.id);
+    console.log(req.user.id);
+    req.response = await deleteWorkoutById(req.params.id, req.user.id);
   } catch (err) {
     return res.sendStatus(500);
   }
@@ -58,4 +70,5 @@ module.exports = {
   getAllWorkoutsMiddleware,
   getWorkoutByTitleMiddleware,
   getWorkoutByIdMiddleware,
+  deleteWorkoutByIdMiddleware,
 };

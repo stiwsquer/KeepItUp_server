@@ -5,6 +5,7 @@ const {
   getAllDefaultExercisesDAO,
   countExercisesDAO,
   getExercisesByIdDAO,
+  deleteExerciseByIdDAO,
 } = require('../dao/ExerciseDao');
 const { Exercise } = require('../models/Exercise');
 
@@ -67,6 +68,15 @@ async function getExerciseById(id) {
   }
 }
 
+async function deleteExerciseById(id, coachId) {
+  try {
+    return await deleteExerciseByIdDAO(id, coachId);
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+}
+
 module.exports = {
   getAllExercises,
   saveExercise,
@@ -74,4 +84,5 @@ module.exports = {
   getAllDefaultExercises,
   countExercises,
   getExerciseById,
+  deleteExerciseById,
 };

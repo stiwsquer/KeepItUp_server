@@ -1,5 +1,9 @@
 const jwt = require('jsonwebtoken');
-const { countExercises } = require('../service/exerciseService');
+const {
+  countExercises,
+  getExerciseById,
+} = require('../service/exerciseService');
+const { getWorkoutById } = require('../service/workoutService');
 const { ROLE, TABLE } = require('./roles');
 
 function authRole(roles) {
@@ -92,10 +96,29 @@ function filterOutPassword(req, res, next) {
   return next();
 }
 
+function authCoach(model) {
+  return async (req, res, next) => {
+    try {
+      let data;
+      const { id } = req.params;
+      if (model === TABLE.EXERCISE) data = await getExerciseById(id);
+      if (model === TABLE.WORKOUT) data = await getWorkoutById(id);
+      if (!data) return res.sendStatus(404);
+      if (data.coach && data.coach.id !== req.user.id)
+        return res.sendStatus(403);
+    } catch (err) {
+      console.log(err);
+      return res.sendStatus(500);
+    }
+    return next();
+  };
+}
+
 module.exports = {
   authRole,
   authenticateToken,
   setCoachId,
   paginatedResults,
   filterOutPassword,
+  authCoach,
 };

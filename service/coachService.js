@@ -5,7 +5,7 @@ const {
   saveCoachDAO,
   getCoachesByPartialLastNameDAO,
   getCoachByIdDAO,
-} = require('../dao/coachDao');
+} = require('../dao/CoachDao');
 const { Coach } = require('../models/Coach');
 
 async function getAllCoaches() {

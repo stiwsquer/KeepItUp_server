@@ -3,6 +3,7 @@ const {
   getAllWorkoutsMiddleware,
   getWorkoutByTitleMiddleware,
   getWorkoutByIdMiddleware,
+  deleteWorkoutByIdMiddleware,
 } = require('./workoutMiddleware');
 
 const {
@@ -10,6 +11,7 @@ const {
   authenticateToken,
   setCoachId,
   paginatedResults,
+  authCoach,
 } = require('../globalMiddleware');
 const { ROLE, TABLE } = require('../roles');
 
@@ -58,6 +60,18 @@ app.post(
   authenticateToken,
   authRole([ROLE.COACH]),
   saveWorkoutMiddleware,
+  async (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+    return res.send(req.response);
+  },
+);
+
+app.delete(
+  '/workout/:id',
+  authenticateToken,
+  authRole([ROLE.COACH]),
+  authCoach(TABLE.WORKOUT),
+  deleteWorkoutByIdMiddleware,
   async (req, res) => {
     res.setHeader('Content-Type', 'application/json');
     return res.send(req.response);

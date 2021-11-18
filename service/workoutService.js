@@ -3,6 +3,7 @@ const {
   getAllWorkoutsDAO,
   getWorkoutsByTitleDAO,
   getWorkoutByIdDAO,
+  deleteWorkoutByIdDAO,
 } = require('../dao/WorkoutDao');
 const { Workout } = require('../models/Workout');
 
@@ -47,9 +48,19 @@ async function saveWorkout(data) {
   }
 }
 
+async function deleteWorkoutById(id, coachId) {
+  try {
+    return await deleteWorkoutByIdDAO(id, coachId);
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+}
+
 module.exports = {
   saveWorkout,
   getAllWorkouts,
   getWorkoutByTitle,
   getWorkoutById,
+  deleteWorkoutById,
 };

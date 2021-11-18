@@ -62,9 +62,19 @@ function saveWorkoutDAO(workout) {
   return workoutRepository.save(workout);
 }
 
+function deleteWorkoutByIdDAO(id, coachId) {
+  const connection = getConnection();
+  const workoutRepository = connection.getRepository(Workout);
+  return workoutRepository.delete({
+    id,
+    coach: coachId,
+  });
+}
+
 module.exports = {
   saveWorkoutDAO,
   getAllWorkoutsDAO,
   getWorkoutsByTitleDAO,
   getWorkoutByIdDAO,
+  deleteWorkoutByIdDAO,
 };

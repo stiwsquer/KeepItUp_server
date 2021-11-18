@@ -26,6 +26,10 @@ module.exports = new EntitySchema({
       type: 'text',
       nullable: true,
     },
+    videoUrl: {
+      type: 'text',
+      nullable: true,
+    },
   },
   relations: {
     coach: {

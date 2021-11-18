@@ -3,6 +3,7 @@ const {
   saveExercise,
   getExercisesByName,
   getAllDefaultExercises,
+  deleteExerciseById,
 } = require('../../service/exerciseService');
 
 async function getAllExercisesMiddleware(req, res, next) {
@@ -32,9 +33,10 @@ async function getAllDefaultExercisesMiddleware(req, res, next) {
 async function getAllExercisesByNameMiddleware(req, res, next) {
   try {
     const { name } = req.params;
+    console.log(req.coachId);
     res.paginatedResults.results = await getExercisesByName(
       name,
-      req.coach,
+      req.coachId,
       req.startIndex,
       req.limit,
     );
@@ -54,9 +56,19 @@ async function saveExerciseMiddleware(req, res, next) {
   return next();
 }
 
+async function deleteExerciseByIdMiddleware(req, res, next) {
+  try {
+    req.response = await deleteExerciseById(req.params.id, req.user.id);
+  } catch (err) {
+    return res.sendStatus(500);
+  }
+  return next();
+}
+
 module.exports = {
   getAllDefaultExercisesMiddleware,
   getAllExercisesByNameMiddleware,
   saveExerciseMiddleware,
   getAllExercisesMiddleware,
+  deleteExerciseByIdMiddleware,
 };

@@ -86,7 +86,7 @@ app.post('/login', async (req, res) => {
         secure: process.env.NODE_ENV === 'production',
       })
       .status(200)
-      .json({ message: 'Logged in successfully' });
+      .json(userFromDatabase);
   } catch (e) {
     return res.sendStatus(500);
   }
@@ -94,10 +94,8 @@ app.post('/login', async (req, res) => {
 
 app.post('/register', async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
-  console.log(req.body);
   try {
     if (req.body.role === 'coach') {
-      console.log(req.body);
       if (await getCoachByEmail(req.body.email)) {
         return res.sendStatus(403);
       }
@@ -107,11 +105,9 @@ app.post('/register', async (req, res) => {
     if (req.body.role === 'client') {
       if (await getClientByEmail(req.body.email)) {
         return res.sendStatus(403);
-        // .send(`User with email: ${req.body.email} already exists`);
       }
       await saveClient(req.body);
     }
-
     return res.status(200).json({ message: 'User successfully created' });
   } catch (err) {
     console.error(err);
