@@ -8,6 +8,8 @@ const TABLE = {
   CLIENT: 'client',
   WORKOUT: 'workout',
   CALENDAR: 'calendar',
+  CONVERSATION: 'conversation',
+  MESSAGE: 'message',
 };
 
 module.exports = {
