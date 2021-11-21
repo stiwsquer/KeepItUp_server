@@ -19,6 +19,8 @@ async function connect() {
         require('../schemas/CoachSchema'),
         require('../schemas/ExerciseSchema'),
         require('../schemas/WorkoutSchema'),
+        require('../schemas/ConversationSchema'),
+        require('../schemas/MessageSchema'),
       ],
     });
   } catch (err) {
