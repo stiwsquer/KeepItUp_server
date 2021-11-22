@@ -14,7 +14,11 @@ module.exports = new EntitySchema({
       type: 'text',
     },
     createdAt: {
-      type: 'timestamp',
+      type: 'timestamptz',
+      default: () => 'CURRENT_TIMESTAMP',
+    },
+    owner: {
+      type: 'varchar',
     },
   },
   relations: {

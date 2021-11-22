@@ -61,6 +61,8 @@ function paginatedResults(model) {
       count = await countExercises();
     } else if (model === TABLE.CONVERSATION) {
       count = await countExercises();
+    } else if (model === TABLE.MESSAGE) {
+      count = await countExercises();
     }
 
     if (endIndex < count) {
