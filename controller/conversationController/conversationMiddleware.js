@@ -15,6 +15,7 @@ async function saveConversationMiddleware(req, res, next) {
 
 async function getAllUsersConversationsMiddleware(req, res, next) {
   try {
+    console.log(req.user);
     res.paginatedResults.results = await getAllUsersConversations(req.user);
   } catch (err) {
     return res.sendStatus(500);

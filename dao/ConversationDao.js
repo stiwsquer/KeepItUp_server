@@ -23,7 +23,7 @@ function getAllCoachesConversationsDAO(coach) {
 function getClientConversationDAO(client) {
   const connection = getConnection();
   const conversationRepository = connection.getRepository(Conversation);
-  return conversationRepository.findOne({
+  return conversationRepository.find({
     where: [
       {
         client,
