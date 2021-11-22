@@ -9,6 +9,11 @@ const {
 } = require('../dao/clientDao');
 const { Client } = require('../models/Client');
 const { getCoachById } = require('./coachService');
+const {
+  saveConversation,
+  deleteConversationByClientId,
+  getAllUsersConversations,
+} = require('./conversationService');
 
 async function getAllClients(coachId, startIndex, limit) {
   try {
@@ -67,6 +72,20 @@ async function updateCoachOfClient(coachId, clientEmail, deleteCoach) {
       if (clientToUpdate.coach.id !== coachId) return null;
     }
     clientToUpdate.coach = deleteCoach ? null : coach;
+
+    // Creating conversation
+    if (clientToUpdate.coach) {
+      if (!(await getAllUsersConversations(clientToUpdate)))
+        await saveConversation({
+          client: clientToUpdate.id,
+          coach: coach.id,
+        });
+    }
+    // Removing conversation
+    else {
+      await deleteConversationByClientId(clientToUpdate.id);
+    }
+
     return await saveClientDAO(clientToUpdate);
   } catch (err) {
     console.log(err);
