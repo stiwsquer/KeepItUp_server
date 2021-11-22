@@ -15,3 +15,4 @@ require('./controller/workoutController.js/workoutController');
 require('./controller/clientController/clientController');
 require('./controller/calendarController/calendarController');
 require('./controller/conversationController/conversationController');
+require('./controller/messageController/messageController');

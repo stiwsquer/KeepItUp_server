@@ -6,6 +6,7 @@ class Message {
     this.client = data.client;
     this.coach = data.coach;
     this.content = data.content;
+    this.owner = data.owner;
   }
 }
 
