@@ -33,8 +33,17 @@ function getClientConversationDAO(client) {
   });
 }
 
+function deleteConversationByClientIdDAO(id) {
+  const connection = getConnection();
+  const conversationRepository = connection.getRepository(Conversation);
+  return conversationRepository.delete({
+    client: id,
+  });
+}
+
 module.exports = {
   saveConversationDAO,
   getAllCoachesConversationsDAO,
   getClientConversationDAO,
+  deleteConversationByClientIdDAO,
 };

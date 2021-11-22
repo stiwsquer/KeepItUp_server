@@ -3,6 +3,7 @@ const {
   saveConversationDAO,
   getAllCoachesConversationsDAO,
   getClientConversationDAO,
+  deleteConversationByClientIdDAO,
 } = require('../dao/ConversationDao');
 const { Conversation } = require('../models/Conversation');
 
@@ -30,7 +31,17 @@ async function getAllUsersConversations(user) {
   }
 }
 
+async function deleteConversationByClientId(id) {
+  try {
+    return await deleteConversationByClientIdDAO(id);
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+}
+
 module.exports = {
   saveConversation,
   getAllUsersConversations,
+  deleteConversationByClientId,
 };
