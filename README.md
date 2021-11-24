@@ -1,6 +1,6 @@
 # KeepItUp_server
 
-Web application for sport coaches to creating and managing training plans
+Server side for web application for sport coaches to creating and managing training plans
 
 ## Technologies and Libraries
 JavaScript, React.js, Material UI, Node.js, TypeORM, Express.js, Socket.io, eslint and more.
