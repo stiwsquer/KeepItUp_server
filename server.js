@@ -6,7 +6,20 @@ const PORT = 3001;
 
 app.listen(PORT, async () => {
   console.log(`Listening at localhost:${PORT}`);
-  await connect();
+  let retries = 5;
+  while (retries) {
+    try {
+      // eslint-disable-next-line no-await-in-loop
+      await connect();
+      break;
+    } catch (err) {
+      console.log(err);
+      retries -= 1;
+      console.log(`retries left: + ${retries}`);
+      // eslint-disable-next-line no-await-in-loop
+      await new Promise((res) => setTimeout(res, 5000));
+    }
+  }
 });
 
 require('./controller/authController');

@@ -11,11 +11,6 @@ function getAllCoachesDAO() {
 function getCoachByEmailDAO(email) {
   const connection = getConnection();
   const coachRepository = connection.getRepository(Coach);
-  // return coachRepository.find({
-  //   where: {
-  //     email: `${email}`,
-  //   },
-  // });
   return coachRepository.findOne({ email });
 }
 

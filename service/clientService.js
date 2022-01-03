@@ -6,7 +6,7 @@ const {
   saveClientDAO,
   getClientsByLastNameDAO,
   // eslint-disable-next-line import/no-unresolved
-} = require('../dao/clientDao');
+} = require('../dao/ClientDao');
 const { Client } = require('../models/Client');
 const { getCoachById } = require('./coachService');
 const {
